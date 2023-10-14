@@ -11,7 +11,7 @@ export class Block {
         this.i = i;
         this.j = j;
         this.content = content;
-        this.color = 'white';
+        this.color = '';
     }
 
     getContent(): string {

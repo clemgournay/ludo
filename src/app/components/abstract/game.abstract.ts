@@ -18,6 +18,7 @@ export class GameAbstractComponent {
     grid: Grid;
 
     players: Array<Player> = [];
+    currentPlayer: number = 0;
 
     track: Array<Array<number>> = [];
 
@@ -68,15 +69,12 @@ export class GameAbstractComponent {
         for (let i = 0; i < this.grid.width; i++) {
             for (let j = 0; j < this.grid.height; j++) {
                 const block = this.getBlock(i, j);
-                if (block.getContent() === 'TRACK') {
-                    const img = this.assets['wood'];
-                    this.ctx.drawImage(img, i * this.grid.blockSize, j * this.grid.blockSize, this.grid.blockSize, this.grid.blockSize);
-                } else {
-                    const color = block.getColor();
-                    this.ctx.fillStyle = color;
-                    this.ctx.fillRect(i * this.grid.blockSize, j * this.grid.blockSize, this.grid.blockSize, this.grid.blockSize);
+                const color = block.getColor();
+                if (color !== '' && this.assets) {
+                  const img = this.assets[color];
+                  this.ctx.drawImage(img, i * this.grid.blockSize, j * this.grid.blockSize, this.grid.blockSize, this.grid.blockSize);
                 }
-                
+
             }
         }
     }
@@ -123,8 +121,23 @@ export class GameAbstractComponent {
         return x;
     }
 
+    getPawnsInCase(pos: Array<number>): Array<Pawn> {
+      const pawns: Array<Pawn> = [];
+      this.players.forEach((player: Player) => {
+        const pawns = player.getPawns();
+        pawns.forEach((pawn: Pawn) => {
+          if (pawn.i === pos[0] && pawn.j === pos[1]) pawns.push(pawn);
+        });
+      });
+      return pawns;
+    }
+
+    checkOtherPlayers(pos: Array<number>): void {
+
+    }
+
     getAssets(): any {
         return this.assets;
     }
-    
+
 }

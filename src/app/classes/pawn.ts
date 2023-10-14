@@ -1,7 +1,7 @@
 import { GameAbstractComponent } from "../components/abstract/game.abstract";
 
 export class Pawn {
-    
+
     game: GameAbstractComponent;
     playerID: string;
     i: number;
@@ -36,6 +36,7 @@ export class Pawn {
         console.log(this.blockIndex)
         const newBlock = track[this.blockIndex % track.length];
         this.move(newBlock[0], newBlock[1]);
+        this.game.checkOtherPlayers(newBlock);
     }
 
     getBlockIndex(): number {
@@ -62,5 +63,5 @@ export class Pawn {
     isOnTrack(): boolean {
         return this.onTrack;
     }
-    
+
 }
